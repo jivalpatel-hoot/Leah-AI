@@ -10,12 +10,15 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "node --import tsx --test src/**/*.test.ts",
-    "demo": "node --import tsx examples/demo.ts"
+    "test": "node --import tsx --test 'src/**/*.test.ts'",
+    "demo": "node --import tsx examples/demo.ts",
+    "compare": "node --import tsx examples/run-comparison.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.70.0",
     "@leah/knowledge-base": "0.1.0",
-    "@leah/shared": "0.1.0"
+    "@leah/shared": "0.1.0",
+    "openai": "^6.0.0"
   },
   "devDependencies": {
     "typescript": "^5.4.0"

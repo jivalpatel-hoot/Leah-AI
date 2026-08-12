@@ -36,3 +36,6 @@ coverage/
 data/*.db
 data/*.sqlite
 data/local/
+
+# Generated brain-comparison reports
+packages/voice/eval-results/

@@ -21,10 +21,13 @@ export interface NovaSonicBrainConfig {
  */
 export class NovaSonicBrain implements BrainAdapter {
   readonly id = "nova-sonic" as const;
+  readonly name = "Amazon Nova Sonic";
+  readonly model: string;
   private readonly config: NovaSonicBrainConfig;
 
   constructor(config: NovaSonicBrainConfig) {
     this.config = config;
+    this.model = config.modelId ?? "amazon.nova-sonic-v1";
   }
 
   async generateReply(_context: BrainContext): Promise<BrainReply> {

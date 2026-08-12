@@ -11,6 +11,12 @@ import type { BrainAdapter, BrainContext, BrainReply } from "@leah/shared";
  */
 export class MockBrain implements BrainAdapter {
   readonly id = "claude" as const; // label demo data as if produced by Claude
+  readonly name: string;
+  readonly model = "mock";
+
+  constructor(name = "Mock brain") {
+    this.name = name;
+  }
 
   async generateReply(context: BrainContext): Promise<BrainReply> {
     const topFact = context.specialtyContext[0];
@@ -45,6 +51,11 @@ export class MockBrain implements BrainAdapter {
       citedDocIds,
       suggestedStage: context.stage,
       wantsHumanHandoff: context.stage === "targeted_education" && !topFact,
+      // Rough stand-in so cost aggregation has something to sum in dry runs.
+      usage: {
+        inputTokens: context.systemPrompt.length / 4,
+        outputTokens: text.length / 4,
+      },
     };
   }
 }

@@ -31,6 +31,12 @@ export interface BrainContext {
   systemPrompt: string;
 }
 
+/** Token usage for a single brain call — drives the per-minute/per-call cost axis. */
+export interface BrainUsage {
+  inputTokens: number;
+  outputTokens: number;
+}
+
 /** The brain's structured reply. */
 export interface BrainReply {
   text: string;
@@ -40,13 +46,21 @@ export interface BrainReply {
   suggestedStage?: ConversationStage;
   /** True if the brain determined this needs a human. */
   wantsHumanHandoff?: boolean;
+  /** Tokens consumed producing this reply, when the provider reports them. */
+  usage?: BrainUsage;
 }
 
 /**
- * The pluggable "brain". Implementations: Claude, GPT-4o Realtime, Nova Sonic.
- * Built so the team can run the same script through each and compare.
+ * The pluggable "brain". Implementations: Claude (Opus / Sonnet via one
+ * adapter), OpenAI GPT-4o, Nova Sonic. Built so the team can run the same
+ * script through each and compare — see packages/voice/src/eval.
  */
 export interface BrainAdapter {
+  /** Provider family, used for storage and dashboard grouping. */
   readonly id: BrainId;
+  /** Human label for reports, e.g. "Claude Opus 5" or "GPT-4o". */
+  readonly name: string;
+  /** The exact model id the adapter calls, e.g. "claude-opus-5". */
+  readonly model: string;
   generateReply(context: BrainContext): Promise<BrainReply>;
 }

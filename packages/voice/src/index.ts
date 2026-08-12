@@ -4,9 +4,12 @@ export * from "./engine.js";
 
 // Brains (the reasoning "brain")
 export * from "./brains/mock.js";
-export * from "./brains/claude.js";
-export * from "./brains/gpt4o.js";
+export * from "./brains/anthropic.js";
+export * from "./brains/openai.js";
 export * from "./brains/nova-sonic.js";
+
+// Evaluation harness — the side-by-side brain comparison
+export * from "./eval/index.js";
 
 // Voice platforms (the "mouth")
 export * from "./voice/adapter.js";
