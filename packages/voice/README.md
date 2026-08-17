@@ -68,7 +68,30 @@ line *plus* the set A doc ids it drew from — which the guardrails cross-check.
 `MockBrain` is a working, keyless reference implementation showing the exact
 `BrainReply` shape. `NovaSonicBrain` is a stub (speech-to-speech via Bedrock).
 
+**Pilot default:** `createDefaultBrain()` returns the chosen pilot brain —
+**Claude Sonnet 5**, low-effort for voice latency (guardrails are enforced in
+code regardless). Override with the `LEAH_BRAIN_MODEL` env var or an argument.
+Rationale in [`EVAL.md`](EVAL.md); confirm it with the comparison harness.
+
 API keys come from env (`.env`, never committed) — see `.env.example`.
+
+## Runtime — driving a live call
+
+`LeahConversation` (`src/runtime/`) turns the engine into an actual call: feed it
+each patient utterance, it runs the RAG turn, builds the transcript with
+citations, accumulates guardrail flags, tracks the stage, and on `end()` returns
+a finished `Call` — the exact record the dashboard renders. A `CallStore`
+(in-memory or JSON file) persists it.
+
+```ts
+const convo = new LeahConversation({ callId, patient, engine, brain: "claude", voice: "vapi" });
+const reply = await convo.handleUtterance("What does this cost?"); // Leah's line
+// ...more turns...
+await store.save(convo.end());
+```
+
+To go live, hand `convo.handleUtterance` to a `VoiceAdapter` as its
+`onPatientUtterance` handler and call `end()` from `onCallEnded`.
 
 ## Comparing brains
 

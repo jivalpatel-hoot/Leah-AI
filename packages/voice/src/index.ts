@@ -7,6 +7,10 @@ export * from "./brains/mock.js";
 export * from "./brains/anthropic.js";
 export * from "./brains/openai.js";
 export * from "./brains/nova-sonic.js";
+export * from "./brains/default.js";
+
+// Runtime — drives a live call, records the Call, persists it
+export * from "./runtime/index.js";
 
 // Evaluation harness — the side-by-side brain comparison
 export * from "./eval/index.js";
