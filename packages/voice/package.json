@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test 'src/**/*.test.ts'",
     "demo": "node --import tsx examples/demo.ts",
-    "compare": "node --import tsx examples/run-comparison.ts"
+    "compare": "node --import tsx examples/run-comparison.ts",
+    "seed": "node --import tsx examples/seed-calls.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.70.0",

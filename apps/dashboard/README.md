@@ -26,10 +26,25 @@ npm run dev          # or: npm run dev --workspace apps/dashboard
 
 ## Data
 
-All data comes from `lib/mock-data.ts`, typed with `@leah/shared`. The metrics
-are computed by the shared `computeMetrics()` so the dashboard and any report
-agree. To go live, replace `getPatients()` / `getCalls()` with reads from the
-real call/outcome store — no page changes needed.
+`lib/data.ts` is the single data source. It reads **real** finished calls from
+the runtime's JSON store (`data/calls.json` + `data/patients.json`, matching
+`@leah/voice`'s `JsonFileCallStore`) when those files exist, and otherwise falls
+back to the bundled **sample data** in `lib/mock-data.ts` so the app always
+renders. A badge on the overview shows which one is live. Point it elsewhere
+with `LEAH_DATA_DIR`. Metrics come from the shared `computeMetrics()` so the
+dashboard and any report agree.
+
+**See the live path end-to-end, no keys needed:**
+
+```bash
+npm run seed -w packages/voice   # drives mock calls through the runtime → data/
+npm run dev  -w apps/dashboard   # overview now shows "live data"
+```
+
+The pages that read the store are `force-dynamic`, so new calls appear on
+refresh without a rebuild. The calls table (`components/CallsTable.tsx`) is a
+client component with outcome / brain / review-status filters — table-first, per
+the brief; charts come once volume is meaningful.
 
 > Styling is plain CSS (`app/globals.css`) rather than Tailwind, to keep the
 > install light and the build dependency-free. Swap in Tailwind later if the
@@ -37,7 +52,7 @@ real call/outcome store — no page changes needed.
 
 ## TODO before pilot
 
-- [ ] Back `lib/mock-data.ts` with the real data store (call transcripts are PHI).
+- [ ] Swap the JSON store for the production datastore (transcripts are PHI).
 - [ ] Add auth (internal-only).
-- [ ] Let reviewers clear flags and mark calls reviewed from the UI.
-- [ ] Add charts + date/brain/outcome filtering once volume is meaningful.
+- [ ] Let reviewers clear flags and mark calls reviewed from the UI (write path).
+- [ ] Add charts + date-range filtering once volume is meaningful.

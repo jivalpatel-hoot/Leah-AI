@@ -1,5 +1,9 @@
-import { getCalls, getPatient } from "@/lib/mock-data";
+import { getCalls, getPatient } from "@/lib/data";
 import { FlagBadge, fmtDateTime } from "@/lib/format";
+
+
+// Read the call store fresh on every request so live data shows without a rebuild.
+export const dynamic = "force-dynamic";
 
 export default function FlaggedPage() {
   const calls = getCalls();

@@ -1,5 +1,9 @@
-import { getCalls, getPatients } from "@/lib/mock-data";
+import { getCalls, getPatients } from "@/lib/data";
 import { ConsentBadge, OutcomeBadge, fmtDateTime } from "@/lib/format";
+
+
+// Read the call store fresh on every request so live data shows without a rebuild.
+export const dynamic = "force-dynamic";
 
 export default function LeadsPage() {
   const patients = getPatients();

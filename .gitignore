@@ -33,6 +33,7 @@ Thumbs.db
 coverage/
 
 # Local data store (call transcripts are PHI — keep out of git during the pilot)
+/data/
 data/*.db
 data/*.sqlite
 data/local/

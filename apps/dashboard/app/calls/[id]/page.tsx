@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getCall, getPatient } from "@/lib/mock-data";
+import { getCall, getPatient } from "@/lib/data";
 import {
   ConsentBadge,
   FlagBadge,
